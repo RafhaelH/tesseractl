@@ -1,0 +1,37 @@
+# Compiled binaries
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+tesserato
+tesserato.exe
+
+# Test artifacts
+*.test
+*.out
+coverage.txt
+coverage.html
+
+# Go workspace / build cache
+go.work
+go.work.sum
+/bin/
+/dist/
+
+# Editor and OS metadata
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Local environment / config overrides
+.env
+.env.local
+*.local.yaml
+*.local.yml
+
+# Dependency vendoring (we don't vendor)
+/vendor/

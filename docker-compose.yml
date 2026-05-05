@@ -1,0 +1,6 @@
+services:
+  web:
+    image: nginx:alpine
+    container_name: tesserato-test
+    ports:
+      - "8080:80"

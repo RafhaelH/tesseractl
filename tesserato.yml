@@ -1,0 +1,7 @@
+projects:
+  demo:
+    path: C:/Users/rafha/OneDrive/Desktop/Projetos/cli_go
+    compose_file: docker-compose.yml
+    services:
+      web: tesserato-test
+      db: tesserato-test-db

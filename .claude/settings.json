@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//c/Users/rafha/.claude/projects/c--Users-rafha-OneDrive-Desktop-Projetos-cli-go/memory/**)"
+    ]
+  }
+}
