@@ -1,41 +1,41 @@
 # tesserato
 
-A Go CLI on top of Docker and Docker Compose, built to centralize the day-to-day operations of multiple containerized projects running on a single host (typically a VPS).
+Uma CLI em Go construída sobre o Docker e o Docker Compose, feita para centralizar a operação do dia a dia de múltiplos projetos containerizados rodando em uma mesma máquina (tipicamente um VPS).
 
-If you manage several Docker-based projects with distinct `docker-compose.yml` files spread across directories — and you find yourself typing long `docker compose -f ... up -d --build` incantations every day — `tesserato` collapses that workflow into short, project-aware commands driven by a single YAML config.
+Se você administra vários projetos baseados em Docker — cada um com seu próprio `docker-compose.yml` espalhado por diretórios diferentes — e se vê digitando comandos longos como `docker compose -f ... up -d --build` o tempo todo, o `tesserato` reduz esse fluxo a comandos curtos e cientes do projeto, dirigidos por um único arquivo YAML.
 
-## Features
+## Funcionalidades
 
-| Command | What it does |
+| Comando | O que faz |
 | --- | --- |
-| `tesserato status` | Lists running containers grouped by the projects defined in your config. Falls back to a flat list when no config is present. |
-| `tesserato up <project> [--build]` | Runs `docker compose up -d` (optionally `--build`) inside the project's directory. |
-| `tesserato down <project> [--volumes]` | Stops and removes the project's containers via `docker compose down`. |
-| `tesserato logs <project> <service> [-f] [--tail N]` | Tails the logs of a single service, resolved through the config's logical-name → container-name map. |
-| `tesserato health` | For every declared service across all projects, reports `Up`, `Exited (code) ...` or `missing`. |
-| `tesserato clean [--all] [-y]` | Prunes stopped containers and dangling images. With `--all`, runs the more aggressive `docker system prune -a --volumes`. Asks for confirmation unless `-y`. |
-| `tesserato deploy <project> [--no-pull] [--branch X]` | Production deploy flow: optional `git checkout <branch>`, then `git pull --ff-only`, then `docker compose up -d --build`. Fails fast on git errors. |
-| `tesserato --version` | Prints the binary version (default `dev`; can be injected at build time). |
+| `tesserato status` | Lista os containers em execução, agrupados pelos projetos definidos na sua configuração. Cai num modo de listagem simples quando não há configuração disponível. |
+| `tesserato up <projeto> [--build]` | Roda `docker compose up -d` (opcionalmente com `--build`) dentro do diretório do projeto. |
+| `tesserato down <projeto> [--volumes]` | Para e remove os containers do projeto via `docker compose down`. |
+| `tesserato logs <projeto> <serviço> [-f] [--tail N]` | Mostra os logs de um único serviço, resolvido pelo mapa nome-lógico → nome-do-container do config. |
+| `tesserato health` | Para cada serviço declarado em todos os projetos, reporta `Up`, `Exited (código) ...` ou `ausente`. |
+| `tesserato clean [--all] [-y]` | Remove containers parados e imagens dangling. Com `--all`, roda o mais agressivo `docker system prune -a --volumes`. Pede confirmação salvo se passar `-y`. |
+| `tesserato deploy <projeto> [--no-pull] [--branch X]` | Fluxo padrão de deploy em produção: `git checkout <branch>` (opcional), `git pull --ff-only` e `docker compose up -d --build`. Aborta rapidamente em erro do git. |
+| `tesserato --version` | Imprime a versão do binário (padrão `dev`; pode ser injetada no momento do build). |
 
-A global `--config <path>` flag overrides config discovery for any command.
+A flag global `--config <caminho>` sobrescreve a descoberta automática do arquivo de configuração para qualquer comando.
 
-## Installation
+## Instalação
 
-### Prerequisites
+### Pré-requisitos
 
-- Go 1.26+ (`go version` to verify)
-- Docker and Docker Compose (the CLI shells out to them)
-- Git (only needed for `tesserato deploy`)
+- Go 1.26+ (`go version` para conferir)
+- Docker e Docker Compose (a CLI delega para eles)
+- Git (necessário apenas para `tesserato deploy`)
 
-### Build and install
+### Build e instalação
 
 ```powershell
 go install github.com/RafhaelH/cli_go/cmd/tesserato@latest
 ```
 
-This drops the binary in `$(go env GOPATH)\bin\tesserato.exe` (Windows) or `$(go env GOPATH)/bin/tesserato` (macOS/Linux), which the Go installer adds to your `PATH` automatically.
+Esse comando coloca o binário em `$(go env GOPATH)\bin\tesserato.exe` (Windows) ou `$(go env GOPATH)/bin/tesserato` (macOS/Linux), que o instalador do Go já adiciona ao seu `PATH`.
 
-To build from a clone:
+Para buildar a partir do clone:
 
 ```powershell
 git clone https://github.com/RafhaelH/cli_go.git
@@ -43,27 +43,27 @@ cd cli_go
 go install ./cmd/tesserato
 ```
 
-### Build with embedded version
+### Build com versão embutida
 
-The version reported by `tesserato --version` is set via `-ldflags`:
+A versão reportada por `tesserato --version` é injetada via `-ldflags`:
 
 ```powershell
 go install -ldflags "-X 'github.com/RafhaelH/cli_go/internal/cli.Version=v0.1.0'" ./cmd/tesserato
 ```
 
-Pair it with `git describe` in a release pipeline to tag binaries automatically.
+Combine com `git describe` num pipeline de release para taggar binários automaticamente.
 
-## Configuration
+## Configuração
 
-`tesserato` is driven by a YAML file. By default it looks for, in order:
+O `tesserato` é dirigido por um arquivo YAML. Por padrão ele procura, nesta ordem:
 
-1. The path passed via `--config <path>`.
-2. `./tesserato.yaml` or `./tesserato.yml` in the current directory.
+1. O caminho passado via `--config <caminho>`.
+2. `./tesserato.yaml` ou `./tesserato.yml` no diretório atual.
 3. `~/.config/tesserato/config.yaml`.
 
-If none are found and no command needs the config (e.g. `clean`, or a no-arg `status` falling back to flat mode), the CLI runs anyway. Otherwise it prints an actionable error explaining where it looked.
+Se nada for encontrado e o comando não precisar do config (ex.: `clean`, ou `status` sem args caindo no modo simples), a CLI roda mesmo assim. Caso contrário, ela imprime um erro acionável explicando onde procurou.
 
-### Example config
+### Exemplo de configuração
 
 ```yaml
 projects:
@@ -86,133 +86,133 @@ projects:
 
 Schema:
 
-| Field | Required | Description |
+| Campo | Obrigatório | Descrição |
 | --- | --- | --- |
-| `projects` | yes | Top-level map keyed by the logical project name you'll pass on the CLI. |
-| `projects.<name>.path` | yes | Absolute path to the project directory (where the compose file lives). |
-| `projects.<name>.compose_file` | no | Compose file name. Defaults to whatever `docker compose` would pick if omitted. |
-| `projects.<name>.services` | yes | Map of logical service name → real container name. The container name is what `docker ps` prints under `NAMES`. |
+| `projects` | sim | Mapa de nível mais alto, indexado pelo nome lógico do projeto que você vai passar na CLI. |
+| `projects.<nome>.path` | sim | Caminho absoluto do diretório do projeto (onde fica o compose). |
+| `projects.<nome>.compose_file` | não | Nome do arquivo compose. Se omitido, o `docker compose` decide o default. |
+| `projects.<nome>.services` | sim | Mapa do nome lógico do serviço → nome real do container. O nome real é o que o `docker ps` imprime na coluna `NAMES`. |
 
-The `services` mapping is what powers the project-grouped views: `tesserato status` and `tesserato health` correlate `docker ps` output against this map to know which container belongs to which project.
+O mapa `services` é o que possibilita as visões agrupadas por projeto: `tesserato status` e `tesserato health` correlacionam a saída do `docker ps` com esse mapa para saber qual container pertence a qual projeto.
 
-## Usage
+## Uso
 
-Once installed and configured:
+Com o binário instalado e a configuração no lugar:
 
 ```powershell
-# What's running, by project?
+# O que está rodando, por projeto?
 tesserato status
 
-# Start a project
+# Sobe um projeto
 tesserato up portal_astech --build
 
-# Tail one service
+# Acompanha os logs de um serviço
 tesserato logs portal_astech backend -f --tail 100
 
-# Stop a project
+# Para um projeto
 tesserato down portal_astech
 
-# Production deploy
+# Deploy em produção
 tesserato deploy portal_astech
 
-# Health snapshot across all projects
+# Snapshot de saúde de todos os projetos
 tesserato health
 
-# Free disk space (with confirmation)
+# Libera espaço em disco (com confirmação)
 tesserato clean
 
-# Aggressive cleanup
+# Limpeza agressiva
 tesserato clean --all -y
 ```
 
-Pass `--config /etc/tesserato.yaml` (or any path) to any command to override config discovery.
+Passe `--config /etc/tesserato.yaml` (ou qualquer caminho) para qualquer comando para sobrescrever a descoberta automática.
 
-## Project structure
+## Estrutura do projeto
 
 ```
 cli_go/
 ├── cmd/
 │   └── tesserato/
-│       └── main.go              Thin entrypoint
+│       └── main.go              Ponto de entrada fino
 ├── internal/
 │   ├── cli/
-│   │   ├── root.go              Cobra root, global flags, version
+│   │   ├── root.go              Comando raiz cobra, flags globais, versão
 │   │   ├── status.go            tesserato status
 │   │   ├── up.go                tesserato up
 │   │   ├── down.go              tesserato down
 │   │   ├── logs.go              tesserato logs
-│   │   ├── clean.go             tesserato clean (+ confirm helper)
+│   │   ├── clean.go             tesserato clean (+ helper de confirmação)
 │   │   ├── health.go            tesserato health
 │   │   ├── deploy.go            tesserato deploy
 │   │   ├── helpers.go           lookupProject, indexByName, etc.
-│   │   └── print.go             printPerProject (shared table renderer)
+│   │   └── print.go             printPerProject (helper compartilhado de tabela)
 │   ├── config/
-│   │   ├── config.go            YAML schema, Load, Resolve, ErrNotFound
+│   │   ├── config.go            Schema YAML, Load, Resolve, ErrNotFound
 │   │   └── config_test.go
 │   ├── docker/
 │   │   ├── docker.go            ListContainers, ListAll, RunCompose, RunDocker
 │   │   └── docker_test.go
 │   └── proc/
-│       └── proc.go              Generic streaming process runner
-├── docker-compose.yml           Sample compose file for local testing
-├── tesserato.yml                Sample tesserato config
+│       └── proc.go              Runner genérico de processo com streaming
+├── docker-compose.yml           Compose de exemplo para testes locais
+├── tesserato.yml                Configuração tesserato de exemplo
 ├── go.mod
 ├── go.sum
 ├── .gitignore
 └── README.md
 ```
 
-The split between `cmd/` and `internal/` follows the standard Go layout: `cmd/<name>/main.go` per binary, `internal/` for code that should not be importable from outside this module.
+A separação entre `cmd/` e `internal/` segue o layout padrão de Go: `cmd/<nome>/main.go` por binário, `internal/` para código que **não pode** ser importado de fora deste módulo (regra imposta pelo próprio compilador).
 
-## Development
+## Desenvolvimento
 
-### Run from source
+### Rodar a partir do código
 
 ```powershell
 go run ./cmd/tesserato status
 ```
 
-### Tests
+### Testes
 
 ```powershell
 go test ./...
-go test -v ./...        # verbose, showing each subtest
+go test -v ./...        # verboso, mostrando cada subtest
 ```
 
-The current suite covers `internal/config` (Load + Resolve sentinel cases) and `internal/docker` (the `parseContainers` JSON-line parser, exercised through an injected `io.Reader` so it does not require Docker to be running). Both packages use table-driven tests with `t.Run` subtests — the idiomatic Go pattern.
+A suíte atual cobre o pacote `internal/config` (casos de Load + sentinel do Resolve) e o pacote `internal/docker` (o parser `parseContainers`, exercitado através de um `io.Reader` injetado para não exigir Docker rodando). Ambos os pacotes usam testes table-driven com `t.Run` para subtests — o padrão idiomático em Go.
 
-### Static checks
+### Verificações estáticas
 
 ```powershell
-gofmt -l ./internal ./cmd     # lists files needing formatting
-go vet ./...                  # built-in linter
+gofmt -l ./internal ./cmd     # lista arquivos fora do padrão
+go vet ./...                  # linter nativo
 ```
 
-### Reinstall after changes
+### Reinstalação após mudanças
 
 ```powershell
 go install ./cmd/tesserato
 ```
 
-Re-run any time after editing — `go install` rebuilds and replaces the binary on `PATH` in seconds.
+Pode rodar a qualquer momento após editar — o `go install` reconstrói e substitui o binário no `PATH` em segundos.
 
 ## Roadmap
 
-Done:
+Pronto:
 
-- Phase 1 MVP: `status`, `up`, `down`, `logs`.
-- Phase 2: `clean`, `health`.
-- Phase 3: `deploy` (git pull + rebuild).
-- Polish: real binary via `go install`, version injection via ldflags, friendly multi-line error messages with available-projects suggestions, first tests, refactor to `internal/proc` and shared `printPerProject`.
+- Fase 1 (MVP): `status`, `up`, `down`, `logs`.
+- Fase 2: `clean`, `health`.
+- Fase 3: `deploy` (git pull + rebuild).
+- Polimento: binário real via `go install`, versão injetada via ldflags, mensagens de erro multilinhas com sugestão de projetos disponíveis, primeiros testes, refactor para `internal/proc` e `printPerProject` compartilhado.
 
-Planned:
+Planejado:
 
-- Concurrent inspections in `health` using goroutines + `errgroup`.
-- End-to-end tests for the `cli` package using `cobra.Command.SetArgs` and a mockable docker layer.
-- GitHub Actions CI: tests, `go vet`, `golangci-lint`, cross-platform release binaries with version embedded.
-- Colored / styled output for `status` and `health` (likely `fatih/color` or `lipgloss`).
-- `--json` flag on `status` and `health` for shell-script consumption.
+- Inspeções concorrentes em `health` usando goroutines + `errgroup`.
+- Testes ponta a ponta para o pacote `cli` usando `cobra.Command.SetArgs` e uma camada Docker mockável.
+- CI no GitHub Actions: testes, `go vet`, `golangci-lint`, e binários cross-platform com versão embutida.
+- Saída colorida / estilizada para `status` e `health` (provavelmente `fatih/color` ou `lipgloss`).
+- Flag `--json` em `status` e `health` para consumo via shell scripts.
 
-## Why "tesserato"?
+## Por que "tesserato"?
 
-A *tesseract* is a four-dimensional analogue of a cube — a structure that contains many cubes in a single coherent object. The same idea applies here: many Docker projects, one place to run them.
+Um *tesseract* é o análogo em quatro dimensões de um cubo — uma estrutura que contém vários cubos num único objeto coerente. A ideia se aplica aqui: muitos projetos Docker, um único lugar para operá-los.

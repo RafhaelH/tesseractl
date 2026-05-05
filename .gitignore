@@ -4,8 +4,8 @@
 *.dll
 *.so
 *.dylib
-tesserato
-tesserato.exe
+/tesserato
+/tesserato.exe
 
 # Test artifacts
 *.test
@@ -35,3 +35,6 @@ Thumbs.db
 
 # Dependency vendoring (we don't vendor)
 /vendor/
+
+# Claude Code workspace
+.claude/

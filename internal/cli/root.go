@@ -16,14 +16,14 @@ func NewRootCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:     "tesserato",
 		Version: Version,
-		Short:   "Manage your Docker Compose projects from one place",
-		Long: `tesserato is a CLI on top of Docker and Docker Compose
-that centralizes day-to-day operations across multiple projects.`,
+		Short:   "Gerencie seus projetos Docker Compose em um só lugar",
+		Long: `tesserato é uma CLI sobre Docker e Docker Compose
+que centraliza operações do dia a dia em múltiplos projetos.`,
 		SilenceUsage:  true,
 		SilenceErrors: true,
 	}
 
-	cmd.PersistentFlags().StringVar(&flags.configPath, "config", "", "path to tesserato config file")
+	cmd.PersistentFlags().StringVar(&flags.configPath, "config", "", "caminho do arquivo de configuração do tesserato")
 
 	cmd.AddCommand(newStatusCmd(flags))
 	cmd.AddCommand(newUpCmd(flags))

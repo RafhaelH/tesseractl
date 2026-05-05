@@ -9,7 +9,7 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-var ErrNotFound = errors.New("config file not found")
+var ErrNotFound = errors.New("arquivo de configuração não encontrado")
 
 type Project struct {
 	Path        string            `yaml:"path"`
@@ -24,7 +24,7 @@ type Config struct {
 func Resolve(explicit string) (string, error) {
 	if explicit != "" {
 		if _, err := os.Stat(explicit); err != nil {
-			return "", fmt.Errorf("config %q: %w", explicit, err)
+			return "", fmt.Errorf("configuração %q: %w", explicit, err)
 		}
 		return explicit, nil
 	}
@@ -49,12 +49,12 @@ func Resolve(explicit string) (string, error) {
 func Load(path string) (*Config, error) {
 	data, err := os.ReadFile(path)
 	if err != nil {
-		return nil, fmt.Errorf("read config %q: %w", path, err)
+		return nil, fmt.Errorf("erro lendo configuração %q: %w", path, err)
 	}
 
 	var cfg Config
 	if err := yaml.Unmarshal(data, &cfg); err != nil {
-		return nil, fmt.Errorf("parse config %q: %w", path, err)
+		return nil, fmt.Errorf("erro interpretando configuração %q: %w", path, err)
 	}
 	return &cfg, nil
 }

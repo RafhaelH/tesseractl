@@ -8,8 +8,8 @@ import (
 func newUpCmd(flags *globalFlags) *cobra.Command {
 	var build bool
 	cmd := &cobra.Command{
-		Use:   "up <project>",
-		Short: "Start a project's containers via docker compose",
+		Use:   "up <projeto>",
+		Short: "Sobe os containers de um projeto via docker compose",
 		Args:  cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			project, err := lookupProject(flags.configPath, args[0])
@@ -24,6 +24,6 @@ func newUpCmd(flags *globalFlags) *cobra.Command {
 			return docker.RunCompose(project.Path, project.ComposeFile, composeArgs...)
 		},
 	}
-	cmd.Flags().BoolVar(&build, "build", false, "rebuild images before starting")
+	cmd.Flags().BoolVar(&build, "build", false, "reconstrói as imagens antes de subir")
 	return cmd
 }

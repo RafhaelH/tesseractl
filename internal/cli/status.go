@@ -14,7 +14,7 @@ import (
 func newStatusCmd(flags *globalFlags) *cobra.Command {
 	return &cobra.Command{
 		Use:   "status",
-		Short: "List running containers grouped by project",
+		Short: "Lista os containers rodando, agrupados por projeto",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			containers, err := docker.ListContainers()
 			if err != nil {
@@ -34,9 +34,9 @@ func newStatusCmd(flags *globalFlags) *cobra.Command {
 
 			byName := indexByName(containers)
 			return printPerProject(out, cfg,
-				[]string{"SERVICE", "CONTAINER", "STATUS"},
+				[]string{"SERVIÇO", "CONTAINER", "STATUS"},
 				func(_, svc, container string) []string {
-					status := "not running"
+					status := "parado"
 					if c, ok := byName[container]; ok {
 						status = c.Status
 					}
@@ -59,11 +59,11 @@ func loadConfigOrNil(explicit string) (*config.Config, error) {
 
 func printFlat(out io.Writer, containers []docker.Container) error {
 	if len(containers) == 0 {
-		fmt.Fprintln(out, "No running containers.")
+		fmt.Fprintln(out, "Nenhum container rodando.")
 		return nil
 	}
 	w := tabwriter.NewWriter(out, 0, 0, 2, ' ', 0)
-	fmt.Fprintln(w, "NAME\tIMAGE\tSTATUS\tPORTS")
+	fmt.Fprintln(w, "NOME\tIMAGEM\tSTATUS\tPORTAS")
 	for _, c := range containers {
 		fmt.Fprintf(w, "%s\t%s\t%s\t%s\n", c.Names, c.Image, c.Status, c.Ports)
 	}

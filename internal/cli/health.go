@@ -9,7 +9,7 @@ import (
 func newHealthCmd(flags *globalFlags) *cobra.Command {
 	return &cobra.Command{
 		Use:   "health",
-		Short: "Check declared services across all projects",
+		Short: "Verifica os serviços declarados em todos os projetos",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			path, err := config.Resolve(flags.configPath)
 			if err != nil {
@@ -27,9 +27,9 @@ func newHealthCmd(flags *globalFlags) *cobra.Command {
 			byName := indexByName(containers)
 
 			return printPerProject(cmd.OutOrStdout(), cfg,
-				[]string{"SERVICE", "CONTAINER", "STATE", "IMAGE"},
+				[]string{"SERVIÇO", "CONTAINER", "ESTADO", "IMAGEM"},
 				func(_, svc, container string) []string {
-					state, image := "missing", "-"
+					state, image := "ausente", "-"
 					if c, ok := byName[container]; ok {
 						state = c.Status
 						image = c.Image

@@ -14,7 +14,7 @@ type rowFunc func(projectName, serviceName, containerName string) []string
 
 func printPerProject(out io.Writer, cfg *config.Config, columns []string, rowFor rowFunc) error {
 	if len(cfg.Projects) == 0 {
-		fmt.Fprintln(out, "No projects defined in config.")
+		fmt.Fprintln(out, "Nenhum projeto definido na configuração.")
 		return nil
 	}
 

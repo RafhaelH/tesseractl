@@ -40,9 +40,9 @@ func runDockerPs(includeStopped bool) ([]Container, error) {
 	if err := cmd.Run(); err != nil {
 		msg := bytes.TrimSpace(stderr.Bytes())
 		if len(msg) == 0 {
-			return nil, fmt.Errorf("docker ps failed: %w", err)
+			return nil, fmt.Errorf("docker ps falhou: %w", err)
 		}
-		return nil, fmt.Errorf("docker ps failed: %s", msg)
+		return nil, fmt.Errorf("docker ps falhou: %s", msg)
 	}
 	return parseContainers(&stdout)
 }
@@ -57,12 +57,12 @@ func parseContainers(r io.Reader) ([]Container, error) {
 		}
 		var c Container
 		if err := json.Unmarshal(line, &c); err != nil {
-			return nil, fmt.Errorf("parse docker ps output: %w", err)
+			return nil, fmt.Errorf("erro interpretando saída do docker ps: %w", err)
 		}
 		containers = append(containers, c)
 	}
 	if err := scanner.Err(); err != nil {
-		return nil, fmt.Errorf("read docker ps output: %w", err)
+		return nil, fmt.Errorf("erro lendo saída do docker ps: %w", err)
 	}
 	return containers, nil
 }

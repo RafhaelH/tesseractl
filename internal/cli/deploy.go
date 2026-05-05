@@ -12,15 +12,15 @@ func newDeployCmd(flags *globalFlags) *cobra.Command {
 	var noPull bool
 	var branch string
 	cmd := &cobra.Command{
-		Use:   "deploy <project>",
-		Short: "Pull latest code and rebuild a project's containers",
-		Long: `Runs the standard production deploy flow for a project:
+		Use:   "deploy <projeto>",
+		Short: "Atualiza o código e reconstrói os containers de um projeto",
+		Long: `Executa o fluxo padrão de deploy em produção para um projeto:
 
-  1. (optional) git checkout <branch>
+  1. (opcional) git checkout <branch>
   2. git pull --ff-only
   3. docker compose up -d --build
 
-Use --no-pull to skip the git step.`,
+Use --no-pull para pular o passo do git.`,
 		Args: cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			project, err := lookupProject(flags.configPath, args[0])
@@ -46,7 +46,7 @@ Use --no-pull to skip the git step.`,
 			return docker.RunCompose(project.Path, project.ComposeFile, "up", "-d", "--build")
 		},
 	}
-	cmd.Flags().BoolVar(&noPull, "no-pull", false, "skip git pull, just rebuild")
-	cmd.Flags().StringVar(&branch, "branch", "", "checkout this branch before pulling")
+	cmd.Flags().BoolVar(&noPull, "no-pull", false, "pula o git pull, apenas reconstrói")
+	cmd.Flags().StringVar(&branch, "branch", "", "faz checkout desta branch antes do pull")
 	return cmd
 }
