@@ -30,7 +30,7 @@ A flag global `--config <caminho>` sobrescreve a descoberta automática do arqui
 ### Build e instalação
 
 ```powershell
-go install github.com/RafhaelH/cli_go/cmd/tesserato@latest
+go install github.com/RafhaelH/tesseractl/cmd/tesserato@latest
 ```
 
 Esse comando coloca o binário em `$(go env GOPATH)\bin\tesserato.exe` (Windows) ou `$(go env GOPATH)/bin/tesserato` (macOS/Linux), que o instalador do Go já adiciona ao seu `PATH`.
@@ -38,8 +38,8 @@ Esse comando coloca o binário em `$(go env GOPATH)\bin\tesserato.exe` (Windows)
 Para buildar a partir do clone:
 
 ```powershell
-git clone https://github.com/RafhaelH/cli_go.git
-cd cli_go
+git clone https://github.com/RafhaelH/tesseractl.git
+cd tesseractl
 go install ./cmd/tesserato
 ```
 
@@ -48,7 +48,7 @@ go install ./cmd/tesserato
 A versão reportada por `tesserato --version` é injetada via `-ldflags`:
 
 ```powershell
-go install -ldflags "-X 'github.com/RafhaelH/cli_go/internal/cli.Version=v0.1.0'" ./cmd/tesserato
+go install -ldflags "-X 'github.com/RafhaelH/tesseractl/internal/cli.Version=v0.1.0'" ./cmd/tesserato
 ```
 
 Combine com `git describe` num pipeline de release para taggar binários automaticamente.
@@ -130,7 +130,7 @@ Passe `--config /etc/tesserato.yaml` (ou qualquer caminho) para qualquer comando
 ## Estrutura do projeto
 
 ```
-cli_go/
+tesseractl/
 ├── cmd/
 │   └── tesserato/
 │       └── main.go              Ponto de entrada fino

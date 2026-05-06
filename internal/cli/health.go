@@ -1,8 +1,8 @@
 package cli
 
 import (
-	"github.com/RafhaelH/cli_go/internal/config"
-	"github.com/RafhaelH/cli_go/internal/docker"
+	"github.com/RafhaelH/tesseractl/internal/config"
+	"github.com/RafhaelH/tesseractl/internal/docker"
 	"github.com/spf13/cobra"
 )
 

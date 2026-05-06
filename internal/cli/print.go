@@ -7,7 +7,7 @@ import (
 	"strings"
 	"text/tabwriter"
 
-	"github.com/RafhaelH/cli_go/internal/config"
+	"github.com/RafhaelH/tesseractl/internal/config"
 )
 
 type rowFunc func(projectName, serviceName, containerName string) []string

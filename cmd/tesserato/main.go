@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/RafhaelH/cli_go/internal/cli"
+	"github.com/RafhaelH/tesseractl/internal/cli"
 )
 
 func main() {

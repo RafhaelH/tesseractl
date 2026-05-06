@@ -3,8 +3,8 @@ package cli
 import (
 	"fmt"
 
-	"github.com/RafhaelH/cli_go/internal/docker"
-	"github.com/RafhaelH/cli_go/internal/proc"
+	"github.com/RafhaelH/tesseractl/internal/docker"
+	"github.com/RafhaelH/tesseractl/internal/proc"
 	"github.com/spf13/cobra"
 )
 

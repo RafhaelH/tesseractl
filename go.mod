@@ -1,4 +1,4 @@
-module github.com/RafhaelH/cli_go
+module github.com/RafhaelH/tesseractl
 
 go 1.26.2
 

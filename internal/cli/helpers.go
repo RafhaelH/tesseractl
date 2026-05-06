@@ -6,8 +6,8 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/RafhaelH/cli_go/internal/config"
-	"github.com/RafhaelH/cli_go/internal/docker"
+	"github.com/RafhaelH/tesseractl/internal/config"
+	"github.com/RafhaelH/tesseractl/internal/docker"
 )
 
 func lookupProject(configPath, name string) (*config.Project, error) {

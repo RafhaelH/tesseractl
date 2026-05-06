@@ -8,7 +8,7 @@ import (
 	"io"
 	"os/exec"
 
-	"github.com/RafhaelH/cli_go/internal/proc"
+	"github.com/RafhaelH/tesseractl/internal/proc"
 )
 
 type Container struct {
