@@ -79,3 +79,9 @@ func RunCompose(workdir, composeFile string, args ...string) error {
 func RunDocker(args ...string) error {
 	return proc.Run("", "docker", args...)
 }
+
+type Client struct{}
+
+func (Client) ListContainers() ([]Container, error) {
+	return ListContainers()
+}

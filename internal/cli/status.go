@@ -11,12 +11,12 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func newStatusCmd(flags *globalFlags) *cobra.Command {
+func newStatusCmd(flags *globalFlags, dc dockerClient) *cobra.Command {
 	return &cobra.Command{
 		Use:   "status",
 		Short: "Lista os containers rodando, agrupados por projeto",
 		RunE: func(cmd *cobra.Command, args []string) error {
-			containers, err := docker.ListContainers()
+			containers, err := dc.ListContainers()
 			if err != nil {
 				return err
 			}

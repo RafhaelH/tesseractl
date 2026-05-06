@@ -10,7 +10,7 @@ type globalFlags struct {
 	configPath string
 }
 
-func NewRootCmd() *cobra.Command {
+func NewRootCmd(dc dockerClient) *cobra.Command {
 	flags := &globalFlags{}
 
 	cmd := &cobra.Command{
@@ -25,7 +25,7 @@ que centraliza operações do dia a dia em múltiplos projetos.`,
 
 	cmd.PersistentFlags().StringVar(&flags.configPath, "config", "", "caminho do arquivo de configuração do tesserato")
 
-	cmd.AddCommand(newStatusCmd(flags))
+	cmd.AddCommand(newStatusCmd(flags, dc))
 	cmd.AddCommand(newUpCmd(flags))
 	cmd.AddCommand(newDownCmd(flags))
 	cmd.AddCommand(newLogsCmd(flags))
